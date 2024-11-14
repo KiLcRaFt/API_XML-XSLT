@@ -1,0 +1,553 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<Kompaania>
+	<Tootaja>
+		<id>1</id>
+		<nimi-perenimi>Maggie Kyberd</nimi-perenimi>
+		<amet>Chief Design Engineer</amet>
+		<palk>€1021,75</palk>
+		<igapaevased_andmed>
+			<kuupaev>14/03/2024</kuupaev>
+			<toopaev_algus>15:12</toopaev_algus>
+			<toopaev_lopp>23:30</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>2</id>
+		<nimi-perenimi>Caterina MacVean</nimi-perenimi>
+		<amet>Community Outreach Specialist</amet>
+		<palk>€1518,62</palk>
+		<igapaevased_andmed>
+			<kuupaev>15/01/2024</kuupaev>
+			<toopaev_algus>10:19</toopaev_algus>
+			<toopaev_lopp>22:44</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>3</id>
+		<nimi-perenimi>Far Bignall</nimi-perenimi>
+		<amet>Software Consultant</amet>
+		<palk>€1194,51</palk>
+		<igapaevased_andmed>
+			<kuupaev>04/03/2024</kuupaev>
+			<toopaev_algus>19:22</toopaev_algus>
+			<toopaev_lopp>13:10</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>4</id>
+		<nimi-perenimi>Tomi Mellish</nimi-perenimi>
+		<amet>Mechanical Systems Engineer</amet>
+		<palk>€1108,72</palk>
+		<igapaevased_andmed>
+			<kuupaev>13/09/2024</kuupaev>
+			<toopaev_algus>22:30</toopaev_algus>
+			<toopaev_lopp>20:16</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>5</id>
+		<nimi-perenimi>Marje Ruxton</nimi-perenimi>
+		<amet>Cost Accountant</amet>
+		<palk>€1827,18</palk>
+		<igapaevased_andmed>
+			<kuupaev>17/05/2024</kuupaev>
+			<toopaev_algus>23:06</toopaev_algus>
+			<toopaev_lopp>16:30</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>6</id>
+		<nimi-perenimi>Kip Sparey</nimi-perenimi>
+		<amet>Community Outreach Specialist</amet>
+		<palk>€720,54</palk>
+		<igapaevased_andmed>
+			<kuupaev>11/03/2024</kuupaev>
+			<toopaev_algus>20:26</toopaev_algus>
+			<toopaev_lopp>22:52</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>7</id>
+		<nimi-perenimi>Merill Lucio</nimi-perenimi>
+		<amet>Systems Administrator I</amet>
+		<palk>€1628,58</palk>
+		<igapaevased_andmed>
+			<kuupaev>18/06/2024</kuupaev>
+			<toopaev_algus>16:47</toopaev_algus>
+			<toopaev_lopp>9:20</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>8</id>
+		<nimi-perenimi>Steven Grealy</nimi-perenimi>
+		<amet>VP Sales</amet>
+		<palk>€830,07</palk>
+		<igapaevased_andmed>
+			<kuupaev>20/06/2024</kuupaev>
+			<toopaev_algus>9:49</toopaev_algus>
+			<toopaev_lopp>21:22</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>9</id>
+		<nimi-perenimi>Nanice Kennard</nimi-perenimi>
+		<amet>Health Coach II</amet>
+		<palk>€1289,22</palk>
+		<igapaevased_andmed>
+			<kuupaev>18/05/2024</kuupaev>
+			<toopaev_algus>23:40</toopaev_algus>
+			<toopaev_lopp>19:48</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>10</id>
+		<nimi-perenimi>Glenine Cruddace</nimi-perenimi>
+		<amet>Analyst Programmer</amet>
+		<palk>€1750,66</palk>
+		<igapaevased_andmed>
+			<kuupaev>26/03/2024</kuupaev>
+			<toopaev_algus>18:34</toopaev_algus>
+			<toopaev_lopp>17:52</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>11</id>
+		<nimi-perenimi>Kinsley Dungate</nimi-perenimi>
+		<amet>Information Systems Manager</amet>
+		<palk>€1441,84</palk>
+		<igapaevased_andmed>
+			<kuupaev>04/05/2024</kuupaev>
+			<toopaev_algus>11:39</toopaev_algus>
+			<toopaev_lopp>14:44</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>12</id>
+		<nimi-perenimi>Marybeth Yurevich</nimi-perenimi>
+		<amet>Nurse Practicioner</amet>
+		<palk>€1317,51</palk>
+		<igapaevased_andmed>
+			<kuupaev>16/10/2024</kuupaev>
+			<toopaev_algus>20:58</toopaev_algus>
+			<toopaev_lopp>14:49</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>13</id>
+		<nimi-perenimi>Ardelia Strangman</nimi-perenimi>
+		<amet>Internal Auditor</amet>
+		<palk>€1970,25</palk>
+		<igapaevased_andmed>
+			<kuupaev>30/08/2024</kuupaev>
+			<toopaev_algus>17:54</toopaev_algus>
+			<toopaev_lopp>13:59</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>14</id>
+		<nimi-perenimi>Cele Gettins</nimi-perenimi>
+		<amet>Database Administrator II</amet>
+		<palk>€1569,35</palk>
+		<igapaevased_andmed>
+			<kuupaev>20/03/2024</kuupaev>
+			<toopaev_algus>16:47</toopaev_algus>
+			<toopaev_lopp>22:09</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>15</id>
+		<nimi-perenimi>Weylin Tanslie</nimi-perenimi>
+		<amet>Media Manager I</amet>
+		<palk>€1691,61</palk>
+		<igapaevased_andmed>
+			<kuupaev>01/06/2024</kuupaev>
+			<toopaev_algus>15:02</toopaev_algus>
+			<toopaev_lopp>13:09</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>16</id>
+		<nimi-perenimi>Royce Maker</nimi-perenimi>
+		<amet>Senior Quality Engineer</amet>
+		<palk>€1788,08</palk>
+		<igapaevased_andmed>
+			<kuupaev>10/06/2024</kuupaev>
+			<toopaev_algus>12:58</toopaev_algus>
+			<toopaev_lopp>13:02</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>17</id>
+		<nimi-perenimi>Neddy Cardnell</nimi-perenimi>
+		<amet>Chief Design Engineer</amet>
+		<palk>€1121,22</palk>
+		<igapaevased_andmed>
+			<kuupaev>17/06/2024</kuupaev>
+			<toopaev_algus>13:35</toopaev_algus>
+			<toopaev_lopp>19:16</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>18</id>
+		<nimi-perenimi>Diana Fanshawe</nimi-perenimi>
+		<amet>Analyst Programmer</amet>
+		<palk>€991,48</palk>
+		<igapaevased_andmed>
+			<kuupaev>25/10/2024</kuupaev>
+			<toopaev_algus>11:36</toopaev_algus>
+			<toopaev_lopp>18:45</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>19</id>
+		<nimi-perenimi>Maggi Urquhart</nimi-perenimi>
+		<amet>Budget/Accounting Analyst III</amet>
+		<palk>€1707,57</palk>
+		<igapaevased_andmed>
+			<kuupaev>02/08/2024</kuupaev>
+			<toopaev_algus>11:09</toopaev_algus>
+			<toopaev_lopp>13:24</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>20</id>
+		<nimi-perenimi>Avery Tireman</nimi-perenimi>
+		<amet>Senior Sales Associate</amet>
+		<palk>€1334,46</palk>
+		<igapaevased_andmed>
+			<kuupaev>25/09/2024</kuupaev>
+			<toopaev_algus>11:37</toopaev_algus>
+			<toopaev_lopp>20:59</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>21</id>
+		<nimi-perenimi>Linn Westmerland</nimi-perenimi>
+		<amet>Programmer Analyst III</amet>
+		<palk>€901,52</palk>
+		<igapaevased_andmed>
+			<kuupaev>23/06/2024</kuupaev>
+			<toopaev_algus>15:13</toopaev_algus>
+			<toopaev_lopp>21:36</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>22</id>
+		<nimi-perenimi>Adelheid Capnor</nimi-perenimi>
+		<amet>Payment Adjustment Coordinator</amet>
+		<palk>€1737,52</palk>
+		<igapaevased_andmed>
+			<kuupaev>11/12/2023</kuupaev>
+			<toopaev_algus>13:38</toopaev_algus>
+			<toopaev_lopp>12:56</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>23</id>
+		<nimi-perenimi>Hirsch Riden</nimi-perenimi>
+		<amet>Payment Adjustment Coordinator</amet>
+		<palk>€1327,83</palk>
+		<igapaevased_andmed>
+			<kuupaev>26/04/2024</kuupaev>
+			<toopaev_algus>21:05</toopaev_algus>
+			<toopaev_lopp>22:08</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>24</id>
+		<nimi-perenimi>Rand Alvin</nimi-perenimi>
+		<amet>Accountant II</amet>
+		<palk>€1277,41</palk>
+		<igapaevased_andmed>
+			<kuupaev>19/08/2024</kuupaev>
+			<toopaev_algus>13:40</toopaev_algus>
+			<toopaev_lopp>18:14</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>25</id>
+		<nimi-perenimi>Ber Forsyde</nimi-perenimi>
+		<amet>Nurse Practicioner</amet>
+		<palk>€1962,36</palk>
+		<igapaevased_andmed>
+			<kuupaev>27/08/2024</kuupaev>
+			<toopaev_algus>12:20</toopaev_algus>
+			<toopaev_lopp>22:48</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>26</id>
+		<nimi-perenimi>Ailyn Doleman</nimi-perenimi>
+		<amet>Software Engineer I</amet>
+		<palk>€1926,72</palk>
+		<igapaevased_andmed>
+			<kuupaev>25/01/2024</kuupaev>
+			<toopaev_algus>20:12</toopaev_algus>
+			<toopaev_lopp>12:39</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>27</id>
+		<nimi-perenimi>Madelaine Ibbitson</nimi-perenimi>
+		<amet>Programmer II</amet>
+		<palk>€1544,25</palk>
+		<igapaevased_andmed>
+			<kuupaev>26/04/2024</kuupaev>
+			<toopaev_algus>21:40</toopaev_algus>
+			<toopaev_lopp>12:53</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>28</id>
+		<nimi-perenimi>Lucilia Flamank</nimi-perenimi>
+		<amet>Mechanical Systems Engineer</amet>
+		<palk>€840,16</palk>
+		<igapaevased_andmed>
+			<kuupaev>18/11/2023</kuupaev>
+			<toopaev_algus>10:21</toopaev_algus>
+			<toopaev_lopp>10:25</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>29</id>
+		<nimi-perenimi>Ranice Mackett</nimi-perenimi>
+		<amet>Developer I</amet>
+		<palk>€780,02</palk>
+		<igapaevased_andmed>
+			<kuupaev>04/10/2024</kuupaev>
+			<toopaev_algus>22:38</toopaev_algus>
+			<toopaev_lopp>11:55</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>30</id>
+		<nimi-perenimi>Doti Waplington</nimi-perenimi>
+		<amet>Chief Design Engineer</amet>
+		<palk>€1053,22</palk>
+		<igapaevased_andmed>
+			<kuupaev>09/11/2024</kuupaev>
+			<toopaev_algus>9:08</toopaev_algus>
+			<toopaev_lopp>16:20</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>31</id>
+		<nimi-perenimi>Phil Penhalurick</nimi-perenimi>
+		<amet>Assistant Professor</amet>
+		<palk>€1701,79</palk>
+		<igapaevased_andmed>
+			<kuupaev>17/10/2024</kuupaev>
+			<toopaev_algus>23:45</toopaev_algus>
+			<toopaev_lopp>10:34</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>32</id>
+		<nimi-perenimi>Cherilyn Pursehouse</nimi-perenimi>
+		<amet>Data Coordinator</amet>
+		<palk>€948,61</palk>
+		<igapaevased_andmed>
+			<kuupaev>24/01/2024</kuupaev>
+			<toopaev_algus>11:10</toopaev_algus>
+			<toopaev_lopp>9:27</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>33</id>
+		<nimi-perenimi>Noll Barbie</nimi-perenimi>
+		<amet>VP Sales</amet>
+		<palk>€1197,13</palk>
+		<igapaevased_andmed>
+			<kuupaev>26/11/2023</kuupaev>
+			<toopaev_algus>9:34</toopaev_algus>
+			<toopaev_lopp>9:12</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>34</id>
+		<nimi-perenimi>Thayne Brim</nimi-perenimi>
+		<amet>Programmer II</amet>
+		<palk>€1611,03</palk>
+		<igapaevased_andmed>
+			<kuupaev>30/10/2024</kuupaev>
+			<toopaev_algus>18:29</toopaev_algus>
+			<toopaev_lopp>11:44</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>35</id>
+		<nimi-perenimi>Claudian Ricco</nimi-perenimi>
+		<amet>Editor</amet>
+		<palk>€1899,41</palk>
+		<igapaevased_andmed>
+			<kuupaev>10/08/2024</kuupaev>
+			<toopaev_algus>20:00</toopaev_algus>
+			<toopaev_lopp>23:12</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>36</id>
+		<nimi-perenimi>Halsy Casterou</nimi-perenimi>
+		<amet>Software Consultant</amet>
+		<palk>€801,66</palk>
+		<igapaevased_andmed>
+			<kuupaev>28/08/2024</kuupaev>
+			<toopaev_algus>19:55</toopaev_algus>
+			<toopaev_lopp>13:59</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>37</id>
+		<nimi-perenimi>Koo Sayburn</nimi-perenimi>
+		<amet>Office Assistant IV</amet>
+		<palk>€1479,58</palk>
+		<igapaevased_andmed>
+			<kuupaev>23/06/2024</kuupaev>
+			<toopaev_algus>16:28</toopaev_algus>
+			<toopaev_lopp>14:42</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>38</id>
+		<nimi-perenimi>Den Cavie</nimi-perenimi>
+		<amet>Senior Developer</amet>
+		<palk>€1501,11</palk>
+		<igapaevased_andmed>
+			<kuupaev>02/09/2024</kuupaev>
+			<toopaev_algus>10:23</toopaev_algus>
+			<toopaev_lopp>9:24</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>39</id>
+		<nimi-perenimi>Glenden Shama</nimi-perenimi>
+		<amet>Graphic Designer</amet>
+		<palk>€763,58</palk>
+		<igapaevased_andmed>
+			<kuupaev>08/01/2024</kuupaev>
+			<toopaev_algus>23:48</toopaev_algus>
+			<toopaev_lopp>9:04</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>40</id>
+		<nimi-perenimi>Colleen Ondrich</nimi-perenimi>
+		<amet>Geologist II</amet>
+		<palk>€1163,43</palk>
+		<igapaevased_andmed>
+			<kuupaev>22/08/2024</kuupaev>
+			<toopaev_algus>11:36</toopaev_algus>
+			<toopaev_lopp>11:45</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>41</id>
+		<nimi-perenimi>Tybie Cases</nimi-perenimi>
+		<amet>Automation Specialist I</amet>
+		<palk>€1439,88</palk>
+		<igapaevased_andmed>
+			<kuupaev>23/10/2024</kuupaev>
+			<toopaev_algus>12:57</toopaev_algus>
+			<toopaev_lopp>19:45</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>42</id>
+		<nimi-perenimi>Parry Welband</nimi-perenimi>
+		<amet>Executive Secretary</amet>
+		<palk>€1142,69</palk>
+		<igapaevased_andmed>
+			<kuupaev>30/06/2024</kuupaev>
+			<toopaev_algus>18:06</toopaev_algus>
+			<toopaev_lopp>20:46</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>43</id>
+		<nimi-perenimi>Blake Stening</nimi-perenimi>
+		<amet>Programmer IV</amet>
+		<palk>€1593,32</palk>
+		<igapaevased_andmed>
+			<kuupaev>18/12/2023</kuupaev>
+			<toopaev_algus>20:18</toopaev_algus>
+			<toopaev_lopp>21:30</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>44</id>
+		<nimi-perenimi>Hollis Godfree</nimi-perenimi>
+		<amet>Budget/Accounting Analyst IV</amet>
+		<palk>€1587,04</palk>
+		<igapaevased_andmed>
+			<kuupaev>18/11/2024</kuupaev>
+			<toopaev_algus>18:49</toopaev_algus>
+			<toopaev_lopp>23:54</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>45</id>
+		<nimi-perenimi>Alysa Kwietek</nimi-perenimi>
+		<amet>Account Executive</amet>
+		<palk>€1174,02</palk>
+		<igapaevased_andmed>
+			<kuupaev>01/02/2024</kuupaev>
+			<toopaev_algus>18:21</toopaev_algus>
+			<toopaev_lopp>21:24</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>46</id>
+		<nimi-perenimi>Jerrilee Core</nimi-perenimi>
+		<amet>Financial Advisor</amet>
+		<palk>€1408,37</palk>
+		<igapaevased_andmed>
+			<kuupaev>31/12/2023</kuupaev>
+			<toopaev_algus>9:02</toopaev_algus>
+			<toopaev_lopp>20:48</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>47</id>
+		<nimi-perenimi>Tommy Ostler</nimi-perenimi>
+		<amet>Associate Professor</amet>
+		<palk>€855,06</palk>
+		<igapaevased_andmed>
+			<kuupaev>13/04/2024</kuupaev>
+			<toopaev_algus>9:17</toopaev_algus>
+			<toopaev_lopp>21:15</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>48</id>
+		<nimi-perenimi>Suzann Bloschke</nimi-perenimi>
+		<amet>VP Quality Control</amet>
+		<palk>€1311,46</palk>
+		<igapaevased_andmed>
+			<kuupaev>06/11/2023</kuupaev>
+			<toopaev_algus>20:19</toopaev_algus>
+			<toopaev_lopp>17:30</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>49</id>
+		<nimi-perenimi>Cortney Bagger</nimi-perenimi>
+		<amet>Staff Scientist</amet>
+		<palk>€938,28</palk>
+		<igapaevased_andmed>
+			<kuupaev>30/08/2024</kuupaev>
+			<toopaev_algus>16:00</toopaev_algus>
+			<toopaev_lopp>20:59</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+	<Tootaja>
+		<id>50</id>
+		<nimi-perenimi>Martin Brandin</nimi-perenimi>
+		<amet>Food Chemist</amet>
+		<palk>€703,93</palk>
+		<igapaevased_andmed>
+			<kuupaev>12/11/2024</kuupaev>
+			<toopaev_algus>19:11</toopaev_algus>
+			<toopaev_lopp>16:47</toopaev_lopp>
+		</igapaevased_andmed>
+	</Tootaja>
+</Kompaania>

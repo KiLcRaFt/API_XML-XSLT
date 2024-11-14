@@ -1,0 +1,6 @@
+@API_XML_XSLT_HostAddress = http://localhost:5095
+
+GET {{API_XML_XSLT_HostAddress}}/tootaja/
+Accept: application/json
+
+###
