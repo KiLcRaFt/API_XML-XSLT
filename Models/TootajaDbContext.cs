@@ -27,9 +27,9 @@ namespace API_XML_XSLT.Models
             modelBuilder.Entity<Igapaeva_andmed>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.HasOne(e => e.Tootaja_Id)
-                      .WithMany()
-                      .HasForeignKey("Tootaja_Id")
+                entity.HasOne(e => e.Tootaja)
+                      .WithMany(t => t.Igapaeva_Andmed)
+                      .HasForeignKey(e => e.TootajaId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 

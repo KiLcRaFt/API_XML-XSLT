@@ -15,5 +15,7 @@
         public bool Is_admin { get; set; }
 
         public string Amet { get; set; }
+
+        public ICollection<Igapaeva_andmed> Igapaeva_Andmed { get; set; }
     }
 }
