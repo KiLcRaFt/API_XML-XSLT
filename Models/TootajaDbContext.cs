@@ -28,8 +28,8 @@ namespace API_XML_XSLT.Models
             {
                 entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.Tootaja)
-                      //.WithMany(t => t.Igapaeva_Andmed)
-                      .WithMany()
+                      .WithMany(t => t.IgapaevaAndmed)
+                      //.WithMany()
                       .HasForeignKey(e => e.TootajaId)
                       .OnDelete(DeleteBehavior.Cascade);
             });

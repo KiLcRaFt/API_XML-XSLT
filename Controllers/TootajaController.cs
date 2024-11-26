@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_XML_XSLT.Controllers
 {
+    
     [Route("[controller]")]
     [ApiController]
     public class TootajaController : Controller
@@ -40,8 +41,18 @@ namespace API_XML_XSLT.Controllers
 
         // POST: api/tootaja
         [HttpPost]
-        public async Task<ActionResult<Tootaja>> PostTootaja(Tootaja tootaja)
+        public async Task<ActionResult<Tootaja>> PostTootaja(string nimi, string perenimi, string email, string telefoni_number, string salasyna, bool is_admin, string amet)
         {
+            var tootaja = new Tootaja
+            {
+                Nimi = nimi,
+                Perenimi = perenimi,
+                Email = email,
+                Telefoni_number = telefoni_number,
+                Salasyna = salasyna,
+                Is_admin = is_admin,
+                Amet = amet
+            };
             _tootaja.Tootajad.Add(tootaja);
             await _tootaja.SaveChangesAsync();
 

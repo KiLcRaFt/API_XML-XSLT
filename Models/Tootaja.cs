@@ -16,6 +16,6 @@
 
         public string Amet { get; set; }
 
-        //public ICollection<Igapaeva_andmed> Igapaeva_Andmed { get; set; }
+        public ICollection<Igapaeva_andmed> IgapaevaAndmed { get; set; }
     }
 }
