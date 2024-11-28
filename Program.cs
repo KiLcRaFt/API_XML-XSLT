@@ -15,20 +15,40 @@ builder.Services.AddControllers();
 
 builder.Logging.AddConsole();
 
-// Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.RequireHttpsMetadata = false;  // Для локальной разработки
+        options.SaveToken = true;
+
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = context =>
+            {
+                var userPrincipal = context.Principal;
+                if (userPrincipal == null)
+                {
+                    context.Fail("Invalid token");
+                }
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
+                context.Fail("Authentication failed");
+                return Task.CompletedTask;
+            }
+        };
+
+        var key = Encoding.UTF8.GetBytes("SuperMegaSecretKeyJou521234567890");
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true, // Проверка срока действия
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-            ClockSkew = TimeSpan.Zero // Уменьшение допустимого времени расхождения (опционально)
+            ValidIssuer = "local-api",  // Укажите правильный Issuer
+            ValidAudience = "local-users",  // Укажите правильный Audience
+            IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
 

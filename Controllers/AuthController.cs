@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using System;
 using System.Security.Claims;
 using System.Text;
 using API_XML_XSLT.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using Microsoft.AspNetCore.Identity;
+using System.IdentityModel.Tokens.Jwt;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 [ApiController]
 [Route("api/auth")]
@@ -13,6 +17,9 @@ public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly TootajaDbContext _context;
+    private readonly string _secretKey = "SuperMegaSecretKeyJou521234567890";  // Ваш секретный ключ
+    private readonly string _issuer = "local-api";  // Указание Issuer
+    private readonly string _audience = "local-users";  // Указание Audience
 
     public AuthController(IConfiguration configuration, TootajaDbContext context)
     {
@@ -27,29 +34,29 @@ public class AuthController : ControllerBase
         var tootaja = await _context.Tootajad
             .FirstOrDefaultAsync(x => x.Email == Email);
 
-        if (tootaja == null || tootaja.Salasyna != Password)
+        if (tootaja == null || !VerifyPassword(Password, tootaja.Salasyna))
         {
-            return Unauthorized();
+            return Unauthorized(new { message = "Invalid email or password." });
         }
 
         var token = GenerateJwtToken(tootaja.Id.ToString(), tootaja.Is_admin);
-
         return Ok(new { token });
     }
 
-    private string GenerateJwtToken(string userId, bool isAdmin)
+    private bool VerifyPassword(string password, string hashedPassword)
     {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+        var passwordHasher = new PasswordHasher<Tootaja>();
+        return passwordHasher.VerifyHashedPassword(null, hashedPassword, password) == PasswordVerificationResult.Success;
+    }
 
+    public string GenerateJwtToken(string userId, bool isAdmin)
+    {
+        var key = Encoding.UTF8.GetBytes(_secretKey);
+
+        // Устанавливаем роль пользователя (Admin или Worker)
         var role = isAdmin ? "Admin" : "Worker";
 
-        var expiryMinutes = int.Parse(_configuration["Jwt:ExpiryInMinutes"]);
-        var expirationTime = DateTimeOffset.UtcNow.AddMinutes(expiryMinutes).ToUnixTimeSeconds();
-
-        var audiences = _configuration["Jwt:Audience"];
-
-
+        // Устанавливаем список заявок (claims)
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, userId),
@@ -57,116 +64,62 @@ public class AuthController : ControllerBase
             new Claim("isAdmin", isAdmin.ToString()),
             new Claim(ClaimTypes.Role, role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Aud, audiences),
-            new Claim(JwtRegisteredClaimNames.Exp, expirationTime.ToString())
+            new Claim(JwtRegisteredClaimNames.Aud, _audience),  // audience
+            new Claim(JwtRegisteredClaimNames.Iss, _issuer)    // issuer
         };
 
+        // Создаем токен
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            
-            Issuer = _configuration["Jwt:Issuer"],
-            Audience = _configuration["Jwt:Audience"],
+            Issuer = _issuer,
+            Audience = _audience,
+            Expires = DateTime.UtcNow.AddMinutes(30),  // Устанавливаем время жизни токена
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
         };
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);  // Токен с временем истечения
-    }
-
-    [HttpPost("validate-token")]
-    public IActionResult ValidateToken([FromHeader(Name = "Authorization")] string authorizationHeader)
-    {
-        if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
-        {
-            return Unauthorized("Authorization header missing or incorrect.");
-        }
-
-        // Извлекаем токен из заголовка
-        var token = authorizationHeader.Substring("Bearer ".Length).Trim();
-
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+        var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        try
-        {
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = _configuration["Jwt:Issuer"],
-                ValidAudience = _configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(key)
-            };
-
-            // Проверяем токен
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
-
-            // Если код до этого места выполняется, токен валиден
-            return Ok("Token is valid!");
-        }
-        catch (SecurityTokenExpiredException)
-        {
-            // Если токен просрочен
-            return Unauthorized("Token has expired.");
-        }
-        catch (SecurityTokenInvalidAudienceException)
-        {
-            // Если аудитория токена не совпадает
-            return Unauthorized("Invalid audience.");
-        }
-        catch (SecurityTokenInvalidIssuerException)
-        {
-            // Если издатель токена не совпадает
-            return Unauthorized("Invalid issuer.");
-        }
-        catch (SecurityTokenException)
-        {
-            // Все другие ошибки токена
-            return Unauthorized("Invalid token.");
-        }
-        catch (Exception ex)
-        {
-            // Другие ошибки
-            return Unauthorized("Error: " + ex.Message);
-        }
+        return tokenHandler.WriteToken(token);  // Возвращаем токен в виде строки
     }
+
 
     [HttpPost("validate-token2")]
     public IActionResult ValidateToken2(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]); // Ваш секретный ключ для подписи
+
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = _configuration["Jwt:Issuer"],  // Укажите правильный Issuer
+            ValidAudience = _configuration["Jwt:Audience"],  // Укажите правильный Audience
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+
         try
         {
-            // Параметры для проверки токена с жестко заданными значениями
-            var key = Encoding.UTF8.GetBytes("SuperMegaSecretKeyJou521234567890");
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = "local-api",
-                ValidAudience = "local-users",
-                IssuerSigningKey = new SymmetricSecurityKey(key)
-            };
-
+            // Пытаемся валидировать токен
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
-            // Если код до этого места выполняется, токен валиден
-            return Ok("Token is valid!");
+
+            // Если токен валиден, возвращаем ClaimsPrincipal
+            return Ok(principal);
         }
         catch (SecurityTokenException ex)
         {
-            // Токен неверный или подпись не совпадает
+            // Если токен не прошел валидацию, возвращаем ошибку
             return Unauthorized($"Invalid token: {ex.Message}");
         }
         catch (Exception ex)
         {
-            // Другие ошибки
+            // Для других ошибок
             return Unauthorized($"Error: {ex.Message}");
         }
     }
