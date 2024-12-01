@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace API_XML_XSLT.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [ApiController]
+    [AdminOnly]
     [Route("api/admin")]
     public class AdminPanelController : ControllerBase
     {

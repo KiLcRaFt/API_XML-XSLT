@@ -1,98 +1,26 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Reflection;
 using API_XML_XSLT.Models;
 using Microsoft.OpenApi.Models;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services to the container.
+// Добавляем контроллеры
 builder.Services.AddControllers();
 
-builder.Logging.AddConsole();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.RequireHttpsMetadata = false;  // Для локальной разработки
-        options.SaveToken = true;
-
-        options.Events = new JwtBearerEvents
-        {
-            OnTokenValidated = context =>
-            {
-                var userPrincipal = context.Principal;
-                if (userPrincipal == null)
-                {
-                    context.Fail("Invalid token");
-                }
-                return Task.CompletedTask;
-            },
-            OnAuthenticationFailed = context =>
-            {
-                context.Fail("Authentication failed");
-                return Task.CompletedTask;
-            }
-        };
-
-        var key = Encoding.UTF8.GetBytes("SuperMegaSecretKeyJou521234567890");
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "local-api",  // Укажите правильный Issuer
-            ValidAudience = "local-users",  // Укажите правильный Audience
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-        };
-    });
-
-builder.Services.AddAuthorization(options =>
+// Добавляем распределённую память для сессий
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
 {
-    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("WorkerPolicy", policy => policy.RequireRole("Worker"));
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Время действия сессии
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
-// Add Swagger with XML comments
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Введите JWT токен в формате: 'Bearer {token}'",
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
-});
-
-// Configure DbContext
+// Подключаем DbContext
 builder.Services.AddDbContext<TootajaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure CORS
+// Настраиваем CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -103,9 +31,19 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Добавляем авторизацию (если требуется для вашей логики)
+builder.Services.AddAuthorization();
+
+// Подключаем Swagger для документации API
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+});
+
 var app = builder.Build();
 
-// Use Swagger in development environment
+// Подключаем Swagger в режиме разработки
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -113,15 +51,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Enable CORS
-app.UseCors("AllowAll");
-
+// Настраиваем middleware
 app.UseHttpsRedirection();
-
-// Enable Authentication and Authorization
-app.UseAuthentication();
+app.UseCors("AllowAll");
+app.UseSession(); // Подключаем поддержку сессий
 app.UseAuthorization();
 
+// Подключаем контроллеры
 app.MapControllers();
 
 app.Run();
