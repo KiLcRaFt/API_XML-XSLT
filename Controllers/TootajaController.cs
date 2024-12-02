@@ -6,18 +6,19 @@ namespace API_XML_XSLT.Controllers
 {
     
     [Route("[controller]")]
+    [AdminOnly] // Sellesed endpointid saab kastada ainult admin
     [ApiController]
     public class TootajaController : Controller
     {
         private readonly TootajaDbContext _tootaja;
-        //private readonly HttpClient _httpClient;
 
         public TootajaController(TootajaDbContext context)
         {
             _tootaja = context;
         }
 
-        // GET: api/tootaja
+        // GET: /Tootaja
+        // Saatmine kõik töötajad
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tootaja>>> GetTootaja()
         {
@@ -25,7 +26,8 @@ namespace API_XML_XSLT.Controllers
             return Ok(tootaja);
         }
 
-        // GET: api/tootaja/{id}
+        // GET: /Tootaja/{id}
+        // Saatmine konkretselt töötaja id-ga
         [HttpGet("{id}")]
         public async Task<ActionResult<Tootaja>> GetTootaja(int id)
         {
@@ -39,7 +41,8 @@ namespace API_XML_XSLT.Controllers
             return Ok(tootaja);
         }
 
-        // POST: api/tootaja
+        // POST: /Tootaja
+        // Lisamine uue töötaja
         [HttpPost]
         public async Task<ActionResult<Tootaja>> PostTootaja(string nimi, string perenimi, string email, string telefoni_number, string salasyna, bool is_admin, string amet)
         {
@@ -59,7 +62,8 @@ namespace API_XML_XSLT.Controllers
             return CreatedAtAction(nameof(GetTootaja), new { id = tootaja.Id }, tootaja);
         }
 
-        // DELETE: api/tootaja/{id}
+        // DELETE: /Tootaja/{id}
+        // Kustutamine konkretselt töötaja id-ga
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTootaja(int id)
         {

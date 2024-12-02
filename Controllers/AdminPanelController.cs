@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace API_XML_XSLT.Controllers
 {
     [ApiController]
-    [AdminOnly]
-    [Route("api/admin")]
+    [AdminOnly] // Sellesed endpointid saab kastada ainult admin
+    [Route("admin")]
     public class AdminPanelController : ControllerBase
     {
         private readonly TootajaDbContext _context;
@@ -19,7 +19,8 @@ namespace API_XML_XSLT.Controllers
             _context = context;
         }
 
-        // Получить все рабочие часы работников
+        // GET: /admin/work-hours
+        // Saatmine kõik töötajast tööaega andmed
         [HttpGet("work-hours")]
         public async Task<IActionResult> GetAllWorkHours()
         {
@@ -27,13 +28,14 @@ namespace API_XML_XSLT.Controllers
 
             if (workHours == null || !workHours.Any())
             {
-                return NotFound("No work hours data found.");
+                return NotFound("Töötundide andmeid ei leitud.");
             }
 
             return Ok(workHours);
         }
 
-        // Получить всех работников
+        // GET: /admin/workers
+        // Saatmine kõik töötajad
         [HttpGet("workers")]
         public async Task<IActionResult> GetAllWorkers()
         {
@@ -41,64 +43,106 @@ namespace API_XML_XSLT.Controllers
 
             if (workers == null || !workers.Any())
             {
-                return NotFound("No workers found.");
+                return NotFound("Töötajaid ei leitud.");
             }
 
             return Ok(workers);
         }
 
-        // Добавить новый рабочий час
+        // POST: /admin/add-work-hour
+        // Lisamine tööaeg töötajatele id-ga
         [HttpPost("add-work-hour")]
-        public async Task<IActionResult> AddWorkHour([FromBody] Igapaeva_andmed newWorkHour)
+        public async Task<IActionResult> AddWorkHour(int userId, DateOnly kuupaev, TimeOnly tooAlgus, TimeOnly tooLypp)
         {
-            if (newWorkHour == null)
+            if (userId <= 0)
             {
-                return BadRequest("Invalid data.");
+                return Unauthorized("UserId puudub või on vale.");
             }
+
+            var user = await _context.Tootajad.FindAsync(userId);
+            if (user == null)
+            {
+                return Unauthorized("Kasutajat ei leitud.");
+            }
+
+            var newWorkHour = new Igapaeva_andmed
+            {
+                TootajaId = userId,
+                Kuupaev = kuupaev,
+                Too_algus = tooAlgus,
+                Too_lypp = tooLypp
+            };
 
             _context.IgapaevaAndmed.Add(newWorkHour);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAllWorkHours), new { id = newWorkHour.Id }, newWorkHour);
+            return Ok(newWorkHour);
         }
 
-        // Обновить рабочие часы
+        // PUT: /admin/update-work-hour/{id}
+        // Muudamine tööaega andmed töötajast id-ga
         [HttpPut("update-work-hour/{id}")]
-        public async Task<IActionResult> UpdateWorkHour(int id, [FromBody] Igapaeva_andmed updatedWorkHour)
+        public async Task<IActionResult> UpdateWorkHour(int tooaegaId, int tootajaId, DateOnly kuupaev, TimeOnly tooAlgus, TimeOnly tooLypp)
         {
-            var existingWorkHour = await _context.IgapaevaAndmed.FindAsync(id);
-
-            if (existingWorkHour == null)
+            if (tootajaId <= 0)
             {
-                return NotFound("Work hour not found.");
+                return Unauthorized("UserId puudub või on vale.");
             }
 
-            // Обновляем рабочие часы
-            existingWorkHour.TootajaId = updatedWorkHour.TootajaId;
-            existingWorkHour.Kuupaev = updatedWorkHour.Kuupaev;
-            existingWorkHour.Too_algus = updatedWorkHour.Too_algus;
-            existingWorkHour.Too_lypp = updatedWorkHour.Too_lypp;
+            var user = await _context.Tootajad.FindAsync(tootajaId);
+            if (user == null)
+            {
+                return Unauthorized("Kasutajat ei leitud.");
+            }
+
+            var existingWorkHour = await _context.IgapaevaAndmed.FindAsync(tooaegaId);
+            if (existingWorkHour == null)
+            {
+                return NotFound("Tööaeg ei ole leitud.");
+            }
+
+            // Kontrollida, et töötund kuulub sellele töötajale
+            if (existingWorkHour.TootajaId != tootajaId)
+            {
+                return Unauthorized("Te ei saa muuta teiste töötajate tööaega.");
+            }
+
+            existingWorkHour.Kuupaev = kuupaev;
+            existingWorkHour.Too_algus = tooAlgus;
+            existingWorkHour.Too_lypp = tooLypp;
 
             await _context.SaveChangesAsync();
 
-            return Ok("Work hour updated successfully.");
+            return Ok("Töötund edukalt uuendatud.");
         }
 
-        // Удалить рабочий час
+        // DELETE: /admin/delete-work-hour/{id}
+        // Kustutamine konkreetselt tööaeg töötajast id-ga
         [HttpDelete("delete-work-hour/{id}")]
-        public async Task<IActionResult> DeleteWorkHour(int id)
+        public async Task<IActionResult> DeleteWorkHour(int tooaegaId, int tootajaId)
         {
-            var workHour = await _context.IgapaevaAndmed.FindAsync(id);
+            if (tootajaId <= 0)
+            {
+                return Unauthorized("UserId puudub või on vale.");
+            }
 
+            var user = await _context.Tootajad.FindAsync(tootajaId);
+            if (user == null)
+            {
+                return Unauthorized("Kasutajat ei leitud.");
+            }
+
+            var workHour = await _context.IgapaevaAndmed.FindAsync(tooaegaId);
             if (workHour == null)
             {
-                return NotFound("Work hour not found.");
+                return NotFound("Töötundi ei leitud.");
             }
 
             _context.IgapaevaAndmed.Remove(workHour);
             await _context.SaveChangesAsync();
 
-            return Ok("Work hour deleted successfully.");
+            return Ok("Töötund edukalt kustutatud.");
         }
+
     }
 }

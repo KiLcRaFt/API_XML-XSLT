@@ -8,7 +8,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 [ApiController]
-[Route("api/auth")]
+[Route("auth")]
 public class AuthController : ControllerBase
 {
     private readonly TootajaDbContext _context;
@@ -18,67 +18,72 @@ public class AuthController : ControllerBase
         _context = context;
     }
 
+    // POST: /auth/login
+    // Logime sisse
     [HttpPost("login")]
+    // Logime sisse mailiga ja salasõnaga
     public IActionResult Login(string email, string password)
     {
         var user = _context.Tootajad.FirstOrDefault(u => u.Email == email && u.Salasyna == password);
         if (user == null)
         {
-            return Unauthorized("Invalid username or password.");
+            return Unauthorized("Vale kasutajanimi või salasõna.");
         }
 
+        // Lisame sessioni andmed
         HttpContext.Session.SetString("UserId", user.Id.ToString());
         HttpContext.Session.SetString("IsAdmin", user.Is_admin.ToString());
 
-        Console.WriteLine($"Login attempt: Email={email}, Password={password}");
-
-        return Ok(new { Message = "Login successful", IsAdmin = user.Is_admin, Id = user.Id });
+        return Ok(new { Message = "Sisselogimine õnnestus", IsAdmin = user.Is_admin, Id = user.Id });
     }
 
+    // GET: /auth/profile
+    // Saatmine sessioni andmed
     [HttpGet("profile")]
     public IActionResult GetProfile()
     {
-        var userId = HttpContext.Session.GetInt32("UserId");
+        var userId = GetUserIdFromHeader(HttpContext);
+
         if (userId == null)
         {
-            return Unauthorized("User is not logged in.");
+            return Unauthorized("Kasutaja ei ole logitud.");
         }
 
-        var user = _context.Tootajad.Find(userId);
+        var user = _context.Tootajad.FirstOrDefault(u => u.Id == userId);
         if (user == null)
         {
-            return Unauthorized("User not found.");
+            return NotFound("Kasutajat ei leitud.");
         }
 
         return Ok(new
         {
             user.Id,
             user.Email,
-            Role = HttpContext.Session.GetString("Role")
+            IsAdmin = user.Is_admin
         });
     }
 
-    [HttpGet("validate-session")]
-    public IActionResult ValidateSession()
-    {
-        var userId = HttpContext.Session.GetString("UserId");
-        var isAdmin = HttpContext.Session.GetString("IsAdmin");
-
-        if (userId == null)
-        {
-            return Unauthorized("Session not found.");
-        }
-
-        return Ok(new { UserId = userId, IsAdmin = bool.Parse(isAdmin) });
-    }
-
+    //POST: /auth/logout
+    // Logime välja
     [HttpPost("logout")]
     public IActionResult Logout()
     {
+        //Kustutamine session
         HttpContext.Session.Clear();
-        return Ok("Logged out successfully.");
+        return Ok("Edukalt välja logitud.");
+    }
+
+    private int? GetUserIdFromHeader(HttpContext context)
+    {
+        if (context.Request.Headers.TryGetValue("UserId", out var userIdString) && int.TryParse(userIdString, out var userId))
+        {
+            return userId;
+        }
+        return null;
     }
 }
+
+// Autibuut mis annab meil admini funktsionaalsus
 public class AdminOnlyAttribute : Attribute, IAuthorizationFilter
 {
     public void OnAuthorization(AuthorizationFilterContext context)
