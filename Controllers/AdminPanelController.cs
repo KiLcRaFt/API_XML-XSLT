@@ -19,9 +19,9 @@ namespace API_XML_XSLT.Controllers
             _context = context;
         }
 
-        // GET: /admin/work-hours
+        // GET: /admin/tooaeg
         // Saatmine kõik töötajast tööaega andmed
-        [HttpGet("work-hours")]
+        [HttpGet("tooaeg")]
         public async Task<IActionResult> GetAllWorkHours()
         {
             var workHours = await _context.IgapaevaAndmed.ToListAsync();
@@ -34,9 +34,9 @@ namespace API_XML_XSLT.Controllers
             return Ok(workHours);
         }
 
-        // GET: /admin/workers
+        // GET: /admin/tootajad
         // Saatmine kõik töötajad
-        [HttpGet("workers")]
+        [HttpGet("tootajad")]
         public async Task<IActionResult> GetAllWorkers()
         {
             var workers = await _context.Tootajad.ToListAsync();
@@ -49,10 +49,10 @@ namespace API_XML_XSLT.Controllers
             return Ok(workers);
         }
 
-        // POST: /admin/add-work-hour
+        // POST: /admin/tooaeg_lisamine
         // Lisamine tööaeg töötajatele id-ga
-        [HttpPost("add-work-hour")]
-        public async Task<IActionResult> AddWorkHour(int userId, DateOnly kuupaev, TimeOnly tooAlgus, TimeOnly tooLypp)
+        [HttpPost("tooaeg_lisamine")]
+        public async Task<IActionResult> AddWorkHour(int userId, DateTime kuupaev, TimeSpan tooAlgus, TimeSpan tooLypp)
         {
             if (userId <= 0)
             {
@@ -79,10 +79,10 @@ namespace API_XML_XSLT.Controllers
             return Ok(newWorkHour);
         }
 
-        // PUT: /admin/update-work-hour/{id}
+        // PUT: /admin/tooaeg_muudamine
         // Muudamine tööaega andmed töötajast id-ga
-        [HttpPut("update-work-hour/{id}")]
-        public async Task<IActionResult> UpdateWorkHour(int tooaegaId, int tootajaId, DateOnly kuupaev, TimeOnly tooAlgus, TimeOnly tooLypp)
+        [HttpPut("tooaeg_muudamine")]
+        public async Task<IActionResult> UpdateWorkHour(int tooaegaId, int tootajaId, DateTime kuupaev, TimeSpan tooAlgus, TimeSpan tooLypp)
         {
             if (tootajaId <= 0)
             {
@@ -101,12 +101,6 @@ namespace API_XML_XSLT.Controllers
                 return NotFound("Tööaeg ei ole leitud.");
             }
 
-            // Kontrollida, et töötund kuulub sellele töötajale
-            if (existingWorkHour.TootajaId != tootajaId)
-            {
-                return Unauthorized("Te ei saa muuta teiste töötajate tööaega.");
-            }
-
             existingWorkHour.Kuupaev = kuupaev;
             existingWorkHour.Too_algus = tooAlgus;
             existingWorkHour.Too_lypp = tooLypp;
@@ -116,9 +110,9 @@ namespace API_XML_XSLT.Controllers
             return Ok("Töötund edukalt uuendatud.");
         }
 
-        // DELETE: /admin/delete-work-hour/{id}
+        // DELETE: /admin/tooaeg_kustutamine
         // Kustutamine konkreetselt tööaeg töötajast id-ga
-        [HttpDelete("delete-work-hour/{id}")]
+        [HttpDelete("tooaeg_kustutamine")]
         public async Task<IActionResult> DeleteWorkHour(int tooaegaId, int tootajaId)
         {
             if (tootajaId <= 0)

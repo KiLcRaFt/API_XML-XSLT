@@ -41,9 +41,9 @@ namespace API_XML_XSLT.Controllers
             return Ok(tootaja);
         }
 
-        // POST: /Tootaja
+        // POST: /Tootaja/Tootaja_lisamine
         // Lisamine uue töötaja
-        [HttpPost]
+        [HttpPost("Tootaja_lisamine")]
         public async Task<ActionResult<Tootaja>> PostTootaja(string nimi, string perenimi, string email, string telefoni_number, string salasyna, bool is_admin, string amet)
         {
             var tootaja = new Tootaja
@@ -62,12 +62,59 @@ namespace API_XML_XSLT.Controllers
             return CreatedAtAction(nameof(GetTootaja), new { id = tootaja.Id }, tootaja);
         }
 
-        // DELETE: /Tootaja/{id}
-        // Kustutamine konkretselt töötaja id-ga
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTootaja(int id)
+        // PUT: /Tootaja/Tootaja_muudamine/{id}
+        // Uuendamine konkreetselt töötaja id-ga
+        [HttpPut("Tootaja_muudamine")]
+        public async Task<IActionResult> UpdateTootaja(
+            int tootajaId,
+            string nimi,
+            string perenimi,
+            string email,
+            string telefoni_number,
+            string salasyna,
+            bool is_admin,
+            string amet)
         {
-            var tootaja = await _tootaja.Tootajad.FindAsync(id);
+            var tootaja = await _tootaja.Tootajad.FindAsync(tootajaId);
+
+            if (tootaja == null)
+            {
+                return NotFound("Töötajat ei leitud.");
+            }
+
+            tootaja.Nimi = nimi;
+            tootaja.Perenimi = perenimi;
+            tootaja.Email = email;
+            tootaja.Telefoni_number = telefoni_number;
+            tootaja.Salasyna = salasyna;
+            tootaja.Is_admin = is_admin;
+            tootaja.Amet = amet;
+
+            try
+            {
+                await _tootaja.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_tootaja.Tootajad.Any(e => e.Id == tootajaId))
+                {
+                    return NotFound("Töötajat ei eksisteeri.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: /Tootaja/Tootaja_kustutamine/{id}
+        // Kustutamine konkretselt töötaja id-ga
+        [HttpDelete("Tootaja_kustutamine")]
+        public async Task<IActionResult> DeleteTootaja(int tootajaId)
+        {
+            var tootaja = await _tootaja.Tootajad.FindAsync(tootajaId);
             if (tootaja == null)
             {
                 return NotFound();

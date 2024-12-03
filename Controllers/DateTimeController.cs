@@ -34,9 +34,9 @@ namespace API_XML_XSLT.Controllers
             return Ok(tootaja);
         }
 
-        // GET:/tootaja/work-hours
+        // GET:/tootaja/tooaeg
         // Saame näha kõik tööaeg
-        [HttpGet("work-hours")]
+        [HttpGet("tooaeg")]
         public async Task<IActionResult> GetWorkHours()
         {
             var userId = GetUserIdFromHeader(HttpContext);
@@ -53,6 +53,7 @@ namespace API_XML_XSLT.Controllers
             .Where(x => x.TootajaId == userId)
             .Select(x => new
             {
+                x.Id,
                 x.Kuupaev,
                 x.Too_algus,
                 x.Too_lypp
@@ -67,10 +68,10 @@ namespace API_XML_XSLT.Controllers
             return Ok(workHours);
         }
 
-        // POST: /tootaja/work-hour_lisamine
+        // POST: /tootaja/tooaeg_lisamine
         // Lisamine uus tööaeg
-        [HttpPost("work-hour_lisamine")]
-        public async Task<IActionResult> AddWorkHours(DateOnly kuupaev, TimeOnly tooAlgus, TimeOnly tooLypp)
+        [HttpPost("tooaeg_lisamine")]
+        public async Task<IActionResult> AddWorkHours(DateTime kuupaev, TimeSpan tooAlgus, TimeSpan tooLypp)
         {
             var userId = GetUserIdFromHeader(HttpContext);
             int tootajaId = Convert.ToInt32(userId);
@@ -97,10 +98,10 @@ namespace API_XML_XSLT.Controllers
             return Ok("Tööaeg on lisatud");
         }
 
-        // PUT: /tootaja/update-work-hour/{id}
+        // PUT: /tootaja/tooaeg_muudamine
         // Muudamine tööaega andmed töötajast id-ga
-        [HttpPut("update-work-hour/{id}")]
-        public async Task<IActionResult> UpdateWorkHour(int tooaegaId, DateOnly kuupaev, TimeOnly tooAlgus, TimeOnly tooLypp)
+        [HttpPut("tooaeg_muudamine")]
+        public async Task<IActionResult> UpdateWorkHour(int tooaegaId, DateTime kuupaev, TimeSpan tooAlgus, TimeSpan tooLypp)
         {
             var userId = GetUserIdFromHeader(HttpContext);
 
@@ -136,9 +137,9 @@ namespace API_XML_XSLT.Controllers
             return Ok("Töötund edukalt uuendatud.");
         }
 
-        // DELETE: /admin/delete-work-hour/{id}
+        // DELETE: /tooaeg_kustutamine
         // Kustutamine konkreetselt tööaeg töötajast id-ga
-        [HttpDelete("delete-work-hour/{id}")]
+        [HttpDelete("tooaeg_kustutamine")]
         public async Task<IActionResult> DeleteWorkHour(int tooaegaId)
         {
             var userId = GetUserIdFromHeader(HttpContext);
