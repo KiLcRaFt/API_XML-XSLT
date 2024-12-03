@@ -62,7 +62,7 @@ namespace API_XML_XSLT.Controllers
             return CreatedAtAction(nameof(GetTootaja), new { id = tootaja.Id }, tootaja);
         }
 
-        // PUT: /Tootaja/Tootaja_muudamine/{id}
+        // PUT: /Tootaja/Tootaja_muudamine
         // Uuendamine konkreetselt töötaja id-ga
         [HttpPut("Tootaja_muudamine")]
         public async Task<IActionResult> UpdateTootaja(
