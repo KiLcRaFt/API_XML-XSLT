@@ -9,4 +9,11 @@
         public TimeSpan? Too_algus { get; set; }
         public TimeSpan? Too_lypp { get; set; }
     }
+
+    public class TooAeg_andmed
+    {
+        public DateTime Kuupaev { get; set; }
+        public string TooAlgus { get; set; }
+        public string TooLypp { get; set; }
+    }
 }

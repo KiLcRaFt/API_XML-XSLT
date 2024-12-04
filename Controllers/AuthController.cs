@@ -22,9 +22,9 @@ public class AuthController : ControllerBase
     // Logime sisse
     [HttpPost("login")]
     // Logime sisse mailiga ja salasõnaga
-    public IActionResult Login(string email, string password)
+    public IActionResult Login([FromBody] LoginRequest loginRequest)
     {
-        var user = _context.Tootajad.FirstOrDefault(u => u.Email == email && u.Salasyna == password);
+        var user = _context.Tootajad.FirstOrDefault(u => u.Email == loginRequest.Email && u.Salasyna == loginRequest.Password);
         if (user == null)
         {
             return Unauthorized("Vale kasutajanimi või salasõna.");

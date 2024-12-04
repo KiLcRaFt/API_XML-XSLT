@@ -71,7 +71,7 @@ namespace API_XML_XSLT.Controllers
         // POST: /tootaja/tooaeg_lisamine
         // Lisamine uus tööaeg
         [HttpPost("tooaeg_lisamine")]
-        public async Task<IActionResult> AddWorkHours(DateTime kuupaev, TimeSpan tooAlgus, TimeSpan tooLypp)
+        public async Task<IActionResult> AddWorkHours([FromBody] TooAeg_andmed tooAeg_Andmed)
         {
             var userId = GetUserIdFromHeader(HttpContext);
             int tootajaId = Convert.ToInt32(userId);
@@ -83,13 +83,43 @@ namespace API_XML_XSLT.Controllers
                 return Unauthorized("Kasutajat ei leitud.");
             }
 
+            // Преобразуем строки времени в TimeSpan с обработкой ошибок
+            TimeSpan tooAlgus = TimeSpan.Zero;
+            TimeSpan tooLypp = TimeSpan.Zero;
+
+            if (!string.IsNullOrEmpty(tooAeg_Andmed.TooAlgus))
+            {
+                try
+                {
+                    tooAlgus = TimeSpan.Parse(tooAeg_Andmed.TooAlgus); // Преобразование строки в TimeSpan
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Неверный формат времени для TooAlgus.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(tooAeg_Andmed.TooLypp))
+            {
+                try
+                {
+                    tooLypp = TimeSpan.Parse(tooAeg_Andmed.TooLypp); // Преобразование строки в TimeSpan
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Неверный формат времени для TooLypp.");
+                }
+            }
+
+            // Создаем запись в базе данных
             var workHours = new Igapaeva_andmed
             {
                 TootajaId = tootajaId,
-                Kuupaev = kuupaev,
+                Kuupaev = tooAeg_Andmed.Kuupaev,
                 Too_algus = tooAlgus,
                 Too_lypp = tooLypp
             };
+
 
             _context.IgapaevaAndmed.Add(workHours);
 
@@ -101,7 +131,7 @@ namespace API_XML_XSLT.Controllers
         // PUT: /tootaja/tooaeg_muudamine
         // Muudamine tööaega andmed töötajast id-ga
         [HttpPut("tooaeg_muudamine")]
-        public async Task<IActionResult> UpdateWorkHour(int tooaegaId, DateTime kuupaev, TimeSpan tooAlgus, TimeSpan tooLypp)
+        public async Task<IActionResult> UpdateWorkHour([FromBody] TooAeg_andmed tooAeg_Andmed, [FromQuery] int tooaegaId)
         {
             var userId = GetUserIdFromHeader(HttpContext);
 
@@ -128,7 +158,35 @@ namespace API_XML_XSLT.Controllers
                 return Unauthorized("Te ei saa muuta teiste töötajate tööaega.");
             }
 
-            existingWorkHour.Kuupaev = kuupaev;
+            // Преобразуем строки времени в TimeSpan с обработкой ошибок
+            TimeSpan tooAlgus = TimeSpan.Zero;
+            TimeSpan tooLypp = TimeSpan.Zero;
+
+            if (!string.IsNullOrEmpty(tooAeg_Andmed.TooAlgus))
+            {
+                try
+                {
+                    tooAlgus = TimeSpan.Parse(tooAeg_Andmed.TooAlgus); // Преобразование строки в TimeSpan
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Неверный формат времени для TooAlgus.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(tooAeg_Andmed.TooLypp))
+            {
+                try
+                {
+                    tooLypp = TimeSpan.Parse(tooAeg_Andmed.TooLypp); // Преобразование строки в TimeSpan
+                }
+                catch (FormatException)
+                {
+                    return BadRequest("Неверный формат времени для TooLypp.");
+                }
+            }
+
+            existingWorkHour.Kuupaev = tooAeg_Andmed.Kuupaev;
             existingWorkHour.Too_algus = tooAlgus;
             existingWorkHour.Too_lypp = tooLypp;
 
@@ -140,7 +198,7 @@ namespace API_XML_XSLT.Controllers
         // DELETE: /tooaeg_kustutamine
         // Kustutamine konkreetselt tööaeg töötajast id-ga
         [HttpDelete("tooaeg_kustutamine")]
-        public async Task<IActionResult> DeleteWorkHour(int tooaegaId)
+        public async Task<IActionResult> DeleteWorkHour([FromQuery] int tooaegaId)
         {
             var userId = GetUserIdFromHeader(HttpContext);
 

@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register services to the container
 builder.Services.AddControllers();
 
 builder.Services.AddDistributedMemoryCache();
@@ -17,16 +18,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddDbContext<TootajaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
-
+// Add authorization services before building the app
 builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -56,13 +48,14 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
 
+// Build the app
 var app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -71,11 +64,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+
+// Use CORS for the front-end application
+app.UseCors(options => options
+    .WithOrigins("http://localhost:3000")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
+
+app.UseRouting();
+
 app.UseSession();
+
+// Ensure the app uses authorization middleware
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapControllers();
 
