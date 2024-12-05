@@ -152,48 +152,53 @@ namespace API_XML_XSLT.Controllers
                 return NotFound("Tööaeg ei ole leitud.");
             }
 
-            // Kontrollida, et töötund kuulub sellele töötajale
+            // Проверка соответствия рабочего времени пользователю
             if (existingWorkHour.TootajaId != userId)
             {
                 return Unauthorized("Te ei saa muuta teiste töötajate tööaega.");
             }
 
-            // Преобразуем строки времени в TimeSpan с обработкой ошибок
             TimeSpan tooAlgus = TimeSpan.Zero;
             TimeSpan tooLypp = TimeSpan.Zero;
 
-            if (!string.IsNullOrEmpty(tooAeg_Andmed.TooAlgus))
+            try
             {
-                try
+                if (!string.IsNullOrEmpty(tooAeg_Andmed.TooAlgus))
                 {
-                    tooAlgus = TimeSpan.Parse(tooAeg_Andmed.TooAlgus); // Преобразование строки в TimeSpan
+                    tooAlgus = TimeSpan.Parse(tooAeg_Andmed.TooAlgus);
                 }
-                catch (FormatException)
+
+                if (!string.IsNullOrEmpty(tooAeg_Andmed.TooLypp))
                 {
-                    return BadRequest("Неверный формат времени для TooAlgus.");
+                    tooLypp = TimeSpan.Parse(tooAeg_Andmed.TooLypp);
                 }
             }
-
-            if (!string.IsNullOrEmpty(tooAeg_Andmed.TooLypp))
+            catch (FormatException)
             {
-                try
-                {
-                    tooLypp = TimeSpan.Parse(tooAeg_Andmed.TooLypp); // Преобразование строки в TimeSpan
-                }
-                catch (FormatException)
-                {
-                    return BadRequest("Неверный формат времени для TooLypp.");
-                }
+                return BadRequest("Неверный формат времени.");
             }
 
             existingWorkHour.Kuupaev = tooAeg_Andmed.Kuupaev;
             existingWorkHour.Too_algus = tooAlgus;
             existingWorkHour.Too_lypp = tooLypp;
 
-            await _context.SaveChangesAsync();
-
-            return Ok("Töötund edukalt uuendatud.");
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok("Трудовой час успешно обновлён.");
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Логируем ошибку
+                return StatusCode(500, "Ошибка при сохранении данных в базе.");
+            }
+            catch (Exception ex)
+            {
+                // Логируем другие ошибки
+                return StatusCode(500, "Неизвестная ошибка.");
+            }
         }
+
 
         // DELETE: /tooaeg_kustutamine
         // Kustutamine konkreetselt tööaeg töötajast id-ga

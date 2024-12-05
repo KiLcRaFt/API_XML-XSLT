@@ -6,7 +6,7 @@ namespace API_XML_XSLT.Controllers
 {
     
     [Route("[controller]")]
-    [AdminOnly] // Sellesed endpointid saab kastada ainult admin
+     // Sellesed endpointid saab kastada ainult admin
     [ApiController]
     public class TootajaController : Controller
     {
@@ -62,9 +62,9 @@ namespace API_XML_XSLT.Controllers
             return CreatedAtAction(nameof(GetTootaja), new { id = tootaja.Id }, tootaja);
         }
 
-        // PUT: /Tootaja/Tootaja_muudamine
+        // PUT: /Tootaja/Tootaja_muudmine
         // Uuendamine konkreetselt töötaja id-ga
-        [HttpPut("Tootaja_muudamine")]
+        [HttpPut("Tootaja_muudmine")]
         public async Task<IActionResult> UpdateTootaja(
             int tootajaId,
             string nimi,
@@ -108,6 +108,7 @@ namespace API_XML_XSLT.Controllers
 
             return NoContent();
         }
+
 
         // DELETE: /Tootaja/Tootaja_kustutamine/{id}
         // Kustutamine konkretselt töötaja id-ga
